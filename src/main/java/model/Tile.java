@@ -5,14 +5,14 @@ package main.java.model;
 public class Tile {
     private final TileType type;
 
-    public Tile(char type) {
-        this.type = fromChar(type);
+    public Tile(String symbol) {
+        this.type = fromChar(symbol);
     }
 
-    private TileType fromChar(char type) {
-        return switch (type) {
-            case 'e' -> TileType.EMPTY;
-            case 'w' -> TileType.WALL;
+    private TileType fromChar(String symbol) {
+        return switch (symbol) {
+            case "e" -> TileType.EMPTY;
+            case "w" -> TileType.WALL;
             default -> null;
         };
     }
