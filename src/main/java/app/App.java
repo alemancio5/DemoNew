@@ -20,11 +20,7 @@ public class App {
         App.player = new Player("ale", 10, 15, "player");
 
         // initializing the board
-        try {
-            App.board = new Board("test");
-        } catch (FileNotFoundException e) {
-            App.logger.severe("Board file not found");
-        }
+        App.board = new Board("test");
 
         // launching the view
         Application.launch(View.class);

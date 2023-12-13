@@ -4,29 +4,49 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import main.java.model.tile.EmptyTile;
+import main.java.model.tile.Tile;
+import main.java.model.tile.WallTile;
+
 public class Board {
     private final String boardname;
     private final int rows;
     private final int columns;
     private final Tile[][] tiles;
 
-    public Board(String boardname) throws FileNotFoundException {
+    public Board(String boardname) {
+        // setting the board name
         this.boardname = boardname;
 
+        // reading the board file
         File file = new File("src/main/resources/board_files/" + boardname + ".txt");
-        Scanner scanner = new Scanner(file);
+        try {
+            Scanner scanner = new Scanner(file);
+            this.rows = scanner.nextInt();
+            this.columns = scanner.nextInt();
+            this.tiles = new Tile[this.rows][this.columns];
+            this.addTiles(scanner);
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException("Board file does not exist");
+        }
+    }
 
-        this.rows = scanner.nextInt();
-        this.columns = scanner.nextInt();
-
-        this.tiles = new Tile[this.rows][this.columns];
+    private void addTiles(Scanner scanner) {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
-                this.tiles[i][j] = new Tile(scanner.next());
+                switch (scanner.next()) {
+                    case "e":
+                        this.tiles[i][j] = new EmptyTile();
+                        break;
+                    case "w":
+                        this.tiles[i][j] = new WallTile();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Board file has illegal arguments");
+                }
             }
         }
-
-        scanner.close();
     }
 
     public boolean isWalkable(int row, int column) {
