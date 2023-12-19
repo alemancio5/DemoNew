@@ -13,10 +13,10 @@ public class App {
 
     public static void main(String[] args) {
         // initializing the player
-        App.player = new Player("ale", 10, 15, "player");
+        App.player = new Player("Ale", 10, 15, "Blue");
 
         // initializing the board
-        App.board = new Board("test");
+        App.board = new Board("Beghouse");
 
         // launching the view
         Application.launch(View.class);

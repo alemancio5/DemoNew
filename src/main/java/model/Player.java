@@ -15,20 +15,21 @@ public class Player {
         this.skinname = skinname;
     }
 
-    public void moveUp() {
-        this.row--;
-    }
-    
-    public void moveLeft() {
-        this.column--;
-    }
-    
-    public void moveDown() {
-        this.row++;
-    }
-    
-    public void moveRight() {
-        this.column++;
+    public void move(char direction) {
+        switch(direction) {
+            case 'W':
+                this.row--;
+                break;
+            case 'A':
+                this.column--;
+                break;
+            case 'S':
+                this.row++;
+                break;
+            case 'D':
+                this.column++;
+                break;
+        }
     }
     
     public String getUsername() {
