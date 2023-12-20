@@ -3,6 +3,7 @@ package main.java.view;
 import java.util.Objects;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
@@ -20,16 +21,17 @@ public class GameView {
     private Scene scene;
     private Group group;
 
-    private int animationDurationBoardView = 40;
+    private int durationMoveBoardView = 150;
     private Image boardImage;
     private ImageView boardView;
 
     public static final int playerColumns = 32;
     public static final int playerRows = 48;
-    private int animationDurationPlayerView = 20;
-    private int lastUsedFramePlayerView = 1;
-    private char directionPlayerView = 'S';
-    private boolean isMovingPlayer = false;
+    private int durationMovePlayerView = 150;
+    private int lastStepPlayerView = 1;
+    private char directionMovePlayerView;
+    private boolean isMovingPlayerView = false;
+    private Timeline timelineMovePlayerView;
     private Image playerImage;
     private ImageView playerView;
     
@@ -41,18 +43,27 @@ public class GameView {
         this.scene = new Scene(this.group);
 
         // initializing events handler thread
-        new Thread(() -> {
-            this.scene.setOnKeyPressed(event -> {
-                if (!this.isMovingPlayer) {
-                    this.movePlayer(event.getCode().toString().charAt(0));
-                }
-            });
-        }).start();
-        new Thread(() -> {
-            this.scene.setOnKeyReleased(event -> {
-                this.isMovingPlayer = false;
-            });
-        }).start();
+        this.scene.setOnKeyPressed(event1 -> {
+            if (this.isMovingPlayerView == false) {
+                this.isMovingPlayerView = true;
+
+                this.directionMovePlayerView = event1.getCode().toString().charAt(0);
+                Duration duration = Duration.millis(this.durationMovePlayerView);
+                
+                // creating the timeline
+                this.timelineMovePlayerView = new Timeline(new KeyFrame(duration, event2 -> {
+                    this.movePlayer(this.directionMovePlayerView);
+                }));
+                this.timelineMovePlayerView.setCycleCount(Timeline.INDEFINITE);
+                this.timelineMovePlayerView.play();
+            }
+        });
+
+        this.scene.setOnKeyReleased(event3 -> {
+            this.timelineMovePlayerView.stop();
+            this.setFramePlayerView(this.selectRowPlayerImage(this.directionMovePlayerView), 0);
+            this.isMovingPlayerView = false;
+        });
     }
 
     private void initBoardView() {
@@ -81,11 +92,11 @@ public class GameView {
                 columns = -View.tileColumns;
                 break;
             default:
-                break;
+                throw new IllegalStateException("Invalid direction for board view movement");
         }
 
         // creating the animation
-        TranslateTransition transition = new TranslateTransition(Duration.millis(this.animationDurationBoardView), this.boardView);
+        TranslateTransition transition = new TranslateTransition(Duration.millis(this.durationMoveBoardView), this.boardView);
         transition.setByX(columns);
         transition.setByY(rows);
         transition.play();
@@ -93,17 +104,39 @@ public class GameView {
 
     private void initPlayerView() {
         this.playerImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/main/resources/skin_images/" + App.player.getSkinname() + ".png")));
-        this.playerView = new ImageView(this.extractPlayerImageFrame(0, 0));
+        this.initFramePlayerView(0, 0);
         this.playerView.setX((View.stageColumns / 2) - (View.tileColumns / 2));
         this.playerView.setY((View.stageRows / 2) - (3 * View.tileRows / 2));
         this.group.getChildren().add(this.playerView);
     }
 
-    private WritableImage extractPlayerImageFrame(int row, int column) {
-        return new WritableImage(this.playerImage.getPixelReader(), column * 32, row * 48, 32, 48);
+    private int selectRowPlayerImage(char direction) {
+        switch (direction) {
+            case 'W':
+                return 3;
+            case 'A':
+                return 1;
+            case 'S':
+                return 0;
+            case 'D':
+                return 2;
+            default:
+                throw new IllegalStateException("Invalid direction for player image selection");
+        }
+    }
+
+    private void initFramePlayerView(int row, int column) {
+        WritableImage writableImage = new WritableImage(this.playerImage.getPixelReader(), column * 32, row * 48, 32, 48);
+        this.playerView = new ImageView(writableImage);
+    }
+
+    private void setFramePlayerView(int row, int column) {
+        WritableImage writableImage = new WritableImage(this.playerImage.getPixelReader(), column * 32, row * 48, 32, 48);
+        this.playerView.setImage(writableImage);
     }
 
     private void movePlayer(char direction) {
+        System.out.println("Moving player " + direction);
         switch (direction) {
             case 'W':
                 if (App.board.isWalkable(App.player.getRow() - 1, App.player.getColumn())) {
@@ -140,50 +173,20 @@ public class GameView {
 
     private void movePlayerView(char direction) {
         // setting the row of the image
-        int row;
-        switch (direction) {
-            case 'W':
-            row = 3;
-            break;
-            case 'A':
-            row = 1;
-            break;
-            case 'S':
-            row = 0;
-            break;
-            case 'D':
-            row = 2;
-            break;
-            default:
-            throw new IllegalStateException("Invalid direction for player view movement");
-        }
-
-        // making the player view face the right direction
-        if (this.directionPlayerView != direction) {
-            this.playerView.setImage(this.extractPlayerImageFrame(row, 0));
-        }
+        int row = this.selectRowPlayerImage(direction);
         
         // choosing the column of the image
-        int[] column = new int[1];
-        if (this.lastUsedFramePlayerView == 1) {
-            column[0] = 1;
-            this.lastUsedFramePlayerView = 3;
-        } else {
-            column[0] = 3;
-            this.lastUsedFramePlayerView = 1;
+        int column = 0;
+        if (this.lastStepPlayerView == 1) {
+            column = 3;
+            this.lastStepPlayerView = 3;
+        } else if (this.lastStepPlayerView == 3) {
+            column = 1;
+            this.lastStepPlayerView = 1;
         }
 
-        // creating the animation
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(this.animationDurationBoardView), event -> {
-            this.playerView.setImage(this.extractPlayerImageFrame(row, column[0]));
-            column[0] = 0;
-        }));
-        timeline.setCycleCount(2);
-        this.isMovingPlayer = true;
-        timeline.play();
-        timeline.setOnFinished(event -> {
-            this.directionPlayerView = direction;
-        });
+        // updating the player view
+        this.setFramePlayerView(row, column);
     }
 
     public Scene getScene() {
