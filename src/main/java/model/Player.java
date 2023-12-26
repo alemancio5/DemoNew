@@ -8,6 +8,8 @@ public class Player {
     private int column;
     private String skinname;
 
+
+    
     public Player(String username, int row, int column, String skinname) {
         this.username = username;
         this.row = row;

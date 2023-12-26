@@ -8,31 +8,35 @@ import main.java.model.tile.EmptyTile;
 import main.java.model.tile.Tile;
 import main.java.model.tile.WallTile;
 
+
+
 public class Board {
     private final String boardname;
     private final int rows;
     private final int columns;
     private final Tile[][] tiles;
 
+
+
     public Board(String boardname) {
         // setting the board name
         this.boardname = boardname;
 
         // reading the board file
-        File file = new File("src/main/resources/board_files/" + boardname + ".txt");
+        File file = new File("src/main/resources/board_files/" + this.boardname + ".txt");
         try {
             Scanner scanner = new Scanner(file);
             this.rows = scanner.nextInt();
             this.columns = scanner.nextInt();
             this.tiles = new Tile[this.rows][this.columns];
-            this.addTiles(scanner);
+            this.initTiles(scanner);
             scanner.close();
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("Board file does not exist");
         }
     }
 
-    private void addTiles(Scanner scanner) {
+    private void initTiles(Scanner scanner) {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
                 switch (scanner.next()) {

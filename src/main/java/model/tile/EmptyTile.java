@@ -4,6 +4,8 @@ package main.java.model.tile;
 
 public class EmptyTile extends Tile {
 
+
+    
     public EmptyTile() {
     }
 
