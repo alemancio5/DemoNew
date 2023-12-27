@@ -6,10 +6,10 @@ import javafx.stage.Stage;
 
 
 public class View extends Application {
-    public static final int stageRows = 448;
-    public static final int stageColumns = 512;
-    public static final int tileRows = 32;
-    public static final int tileColumns = 32;
+    protected static final int stageRows = 448;
+    protected static final int stageColumns = 512;
+    protected static final int tileRows = 32;
+    protected static final int tileColumns = 32;
 
     public static GameView gameView;
     

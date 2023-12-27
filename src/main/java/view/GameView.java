@@ -31,8 +31,8 @@ public class GameView {
     
     private boolean isMovingScene = false;
     private char directionMoveScene;
-    private int durationMoveScene = 200;
     private int translationMoveScene = 190;
+    private int timeMoveScene = 200;
     private Timeline timelineMoveScene;
     private Scene scene;
 
@@ -137,7 +137,7 @@ public class GameView {
 
     private void initScene() {
         // setting the timeline
-        this.timelineMoveScene = new Timeline(new KeyFrame(Duration.millis(this.durationMoveScene), event1 -> {
+        this.timelineMoveScene = new Timeline(new KeyFrame(Duration.millis(this.timeMoveScene), event1 -> {
             Game.movePlayer(this.directionMoveScene);
         }));
         this.timelineMoveScene.setCycleCount(Timeline.INDEFINITE);
