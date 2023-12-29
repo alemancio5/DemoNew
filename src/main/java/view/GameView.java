@@ -42,6 +42,7 @@ public class GameView {
     public GameView() {
         // initializing the scene
         this.group = new Group();
+        group.setStyle("-fx-background-color: black;");
 
         // initializing the board view
         this.initBoardView();
