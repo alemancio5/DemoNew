@@ -2,11 +2,11 @@ package main.java.model.tile;
 
 
 
-public class EmptyTile extends Tile {
+public class PortalTile extends Tile {
 
 
     
-    public EmptyTile() {
+    public PortalTile() {
     }
 
     @Override
@@ -16,5 +16,6 @@ public class EmptyTile extends Tile {
 
     @Override
     public void action() {
+        System.out.println("Ciao");
     }
 }

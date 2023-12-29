@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 import main.java.controller.Game;
@@ -29,12 +30,12 @@ public class GameView {
     private Image overImage;
     private ImageView overView;
     
+    private Scene scene;
     private boolean isMovingScene = false;
-    private char directionMoveScene;
+    private KeyCode keyMoveScene = KeyCode.S;
     private int translationMoveScene = 190;
     private int timeMoveScene = 200;
     private Timeline timelineMoveScene;
-    private Scene scene;
 
 
     
@@ -76,22 +77,22 @@ public class GameView {
         transition.play();
     }
 
-    private int selectRowPlayerImage(char direction) {
-        switch (direction) {
-            case 'W':
+    private int selectRowPlayerImage(KeyCode key) {
+        switch (key) {
+            case KeyCode.W:
                 return 3;
-            case 'A':
+            case KeyCode.A:
                 return 1;
-            case 'S':
+            case KeyCode.S:
                 return 0;
-            case 'D':
+            case KeyCode.D:
                 return 2;
             default:
-                throw new IllegalStateException("Invalid direction for row player image selection");
+                throw new IllegalStateException("Invalid key for row player image selection");
         }
     }
 
-    private int selectColumnPlayerImage(char direction) {
+    private int selectColumnPlayerImage() {
         if (this.columnPlayerImage == 1) {
             this.columnPlayerImage = 3;
             return 1;
@@ -138,24 +139,35 @@ public class GameView {
     private void initScene() {
         // setting the timeline
         this.timelineMoveScene = new Timeline(new KeyFrame(Duration.millis(this.timeMoveScene), event1 -> {
-            Game.movePlayer(this.directionMoveScene);
+            Game.movePlayer(this.keyMoveScene);
         }));
         this.timelineMoveScene.setCycleCount(Timeline.INDEFINITE);
     
         // setting the key pressed event
         this.scene.setOnKeyPressed(event0 -> {
-            if (!this.isMovingScene) {
-                this.isMovingScene = true;
-                this.directionMoveScene = event0.getCode().toString().charAt(0);
-                this.timelineMoveScene.play();
+            KeyCode key = event0.getCode();
+
+            if (key == KeyCode.W || key == KeyCode.A || key == KeyCode.S || key == KeyCode.D) {
+                if (!this.isMovingScene) {
+                    this.isMovingScene = true;
+                    this.keyMoveScene = key;
+                    this.timelineMoveScene.play();
+                }
+            }
+            if (key == KeyCode.L) {
+                Game.actionBoard(this.keyMoveScene);
             }
         });
         
         // setting the key released event
         this.scene.setOnKeyReleased(event0 -> {
-            this.isMovingScene = false;
-            this.timelineMoveScene.pause();
-            this.setPlayerView(this.selectRowPlayerImage(this.directionMoveScene), 0);
+            char key = event0.getCode().toString().charAt(0);
+
+            if (key == 'W' || key == 'A' || key == 'S' || key == 'D') {
+                this.isMovingScene = false;
+                this.timelineMoveScene.pause();
+                this.setPlayerView(this.selectRowPlayerImage(this.keyMoveScene), 0);
+            }
         });
     }
 
@@ -163,30 +175,30 @@ public class GameView {
         return this.scene;
     }
 
-    public void move(char direction) {
+    public void move(KeyCode key) {
         // setting the columns and rows of the transition
         int rows = 0;
         int columns = 0;
-        switch (direction) {
-            case 'W':
+        switch (key) {
+            case KeyCode.W:
                 rows = View.tileRows;
                 break;
-            case 'A':
+            case KeyCode.A:
                 columns = View.tileColumns;
                 break;
-            case 'S':
+            case KeyCode.S:
                 rows = -View.tileRows;
                 break;
-            case 'D':
+            case KeyCode.D:
                 columns = -View.tileColumns;
                 break;
             default:
-                throw new IllegalStateException("Invalid direction for board view movement");
+                throw new IllegalStateException("Invalid key for board view movement");
         }
 
         // setting the row and column of the player image
-        int row = this.selectRowPlayerImage(direction);
-        int column = this.selectColumnPlayerImage(direction);
+        int row = this.selectRowPlayerImage(key);
+        int column = this.selectColumnPlayerImage();
 
         // moving the views
         this.moveBoardView(rows, columns);

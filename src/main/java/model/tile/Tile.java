@@ -10,5 +10,7 @@ public abstract class Tile {
     }
 
     public abstract boolean isWalkable();
+
+    public abstract void action();
 }
 

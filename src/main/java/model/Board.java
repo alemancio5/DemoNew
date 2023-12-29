@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import main.java.model.tile.EmptyTile;
+import main.java.model.tile.PortalTile;
 import main.java.model.tile.Tile;
 import main.java.model.tile.WallTile;
 
@@ -45,6 +46,9 @@ public class Board {
                         break;
                     case "w":
                         this.tiles[i][j] = new WallTile();
+                        break;
+                    case "p":
+                        this.tiles[i][j] = new PortalTile();
                         break;
                     default:
                         throw new IllegalArgumentException("Board file has illegal arguments");

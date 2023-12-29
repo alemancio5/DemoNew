@@ -1,6 +1,6 @@
 package main.java.model;
 
-
+import javafx.scene.input.KeyCode;
 
 public class Player {
     private String username;
@@ -17,18 +17,18 @@ public class Player {
         this.skinname = skinname;
     }
 
-    public void move(char direction) {
-        switch(direction) {
-            case 'W':
+    public void move(KeyCode key) {
+        switch(key) {
+            case KeyCode.W:
                 this.row--;
                 break;
-            case 'A':
+            case KeyCode.A:
                 this.column--;
                 break;
-            case 'S':
+            case KeyCode.S:
                 this.row++;
                 break;
-            case 'D':
+            case KeyCode.D:
                 this.column++;
                 break;
         }

@@ -1,5 +1,6 @@
 package main.java.controller;
 
+import javafx.scene.input.KeyCode;
 import main.java.model.Board;
 import main.java.model.Player;
 import main.java.view.View;
@@ -20,34 +21,53 @@ public class Game {
         Game.board = new Board("Nowhere");
     }
 
-    public static void movePlayer(char direction) {
-        switch (direction) {
-            case 'W':
+    public static void movePlayer(KeyCode key) {
+        switch (key) {
+            case KeyCode.W:
                 if (Game.board.isWalkable(Game.player.getRow() - 1, Game.player.getColumn())) {
-                    Game.player.move(direction);
-                    View.gameView.move(direction);
+                    Game.player.move(key);
+                    View.gameView.move(key);
                 }
                 break;
-            case 'A':
+            case KeyCode.A:
                 if (Game.board.isWalkable(Game.player.getRow(), Game.player.getColumn() - 1)) {
-                    Game.player.move(direction);
-                    View.gameView.move(direction);
+                    Game.player.move(key);
+                    View.gameView.move(key);
                 }
                 break;
-            case 'S':
+            case KeyCode.S:
                 if (Game.board.isWalkable(Game.player.getRow() + 1, Game.player.getColumn())) {
-                    Game.player.move(direction);
-                    View.gameView.move(direction);
+                    Game.player.move(key);
+                    View.gameView.move(key);
                 }
                 break;
-            case 'D':
+            case KeyCode.D:
                 if (Game.board.isWalkable(Game.player.getRow(), Game.player.getColumn() + 1)) {
-                    Game.player.move(direction);
-                    View.gameView.move(direction);
+                    Game.player.move(key);
+                    View.gameView.move(key);
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    public static void actionBoard(KeyCode key) {
+        switch (key) {
+            case KeyCode.W:
+                Game.board.getTiles()[Game.player.getRow() - 1][Game.player.getColumn()].action();
+                break;
+            case KeyCode.A:
+                Game.board.getTiles()[Game.player.getRow()][Game.player.getColumn() - 1].action();
+                break;
+            case KeyCode.S:
+                Game.board.getTiles()[Game.player.getRow() + 1][Game.player.getColumn()].action();
+                break;
+            case KeyCode.D:
+                Game.board.getTiles()[Game.player.getRow()][Game.player.getColumn() + 1].action();
+                break;
+            default:
+                throw new IllegalStateException("Invalid key for board action");
         }
     }
 }
