@@ -48,7 +48,7 @@ public class Board {
                         this.tiles[i][j] = new WallTile();
                         break;
                     case "p":
-                        this.tiles[i][j] = new PortalTile();
+                        this.tiles[i][j] = new PortalTile(this.boardname, i, j);
                         break;
                     default:
                         throw new IllegalArgumentException("Board file has illegal arguments");
@@ -58,7 +58,11 @@ public class Board {
     }
 
     public boolean isWalkable(int row, int column) {
-        return this.tiles[row][column].isWalkable();
+        if (row < 0 || row >= this.rows || column < 0 || column >= this.columns || !this.tiles[row][column].isWalkable()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public String getBoardname() {

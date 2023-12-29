@@ -66,6 +66,12 @@ public class GameView {
         this.boardView.setX((View.stageColumns / 2) - (Game.player.getColumn() * View.tileColumns) - (View.tileColumns / 2));
         this.boardView.setY((View.stageRows / 2) - (Game.player.getRow() * View.tileRows) - (View.tileRows / 2));
     }
+    
+        public void refreshBoardView() {
+            this.group.getChildren().remove(this.boardView);
+            this.initBoardView();
+            this.group.getChildren().add(this.boardView);
+        } 
 
     public void moveBoardView(int rows, int columns) {
         double currentX = this.boardView.getTranslateX();
@@ -114,6 +120,13 @@ public class GameView {
         this.playerView.setY((View.stageRows / 2) - (3 * View.tileRows / 2));
     }
 
+    public void refreshPlayerView() {
+        this.group.getChildren().remove(this.playerView);
+        int row = this.selectRowPlayerImage(this.keyMoveScene);
+        this.setPlayerView(row, 0);
+        this.group.getChildren().add(this.playerView);
+    }
+
     private void setPlayerView(int row, int column) {
         WritableImage writableImage = new WritableImage(this.playerImage.getPixelReader(), column * View.tileColumns, row * View.tileRows * 2, View.tileColumns, View.tileRows * 2);
         this.playerView.setImage(writableImage);
@@ -125,6 +138,12 @@ public class GameView {
         this.overView.setX((View.stageColumns / 2) - (Game.player.getColumn() * View.tileColumns) - (View.tileColumns / 2));
         this.overView.setY((View.stageRows / 2) - (Game.player.getRow() * View.tileRows) - (View.tileRows / 2));
     }
+    
+        public void refreshOverView() {
+            this.group.getChildren().remove(this.overView);
+            this.initOverView();
+            this.group.getChildren().add(this.overView);
+        }
 
     public void moveOverView(int rows, int columns) {
         double currentX = this.overView.getTranslateX();
