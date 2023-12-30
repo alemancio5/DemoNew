@@ -1,6 +1,6 @@
 package main.java.model.tile;
 
-import main.java.controller.Game;
+import main.java.ctrl.GameCtrl;
 import main.java.model.Board;
 import main.java.view.View;
 
@@ -39,12 +39,6 @@ public class PortalTile extends Tile {
 
     @Override
     public void action() {
-        Game.player.setRow(row);
-        Game.player.setColumn(column);
-        Game.board = new Board(destination);
-        View.gameView.fadeGroup();
-        View.gameView.refreshBoardView();
-        View.gameView.refreshPlayerView();
-        View.gameView.refreshOverView();
+        GameCtrl.teleport(this.destination, this.row, this.column);
     }
 }

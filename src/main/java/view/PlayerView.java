@@ -6,23 +6,32 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import main.java.controller.Game;
+import main.java.ctrl.GameCtrl;
+
+
 
 public class PlayerView {
-    private int columnPlayerImage = 1;
-    private Image playerImage;
-    private ImageView playerView;
+    private Image skinImage;
+    private WritableImage skinWritableImage;
+    private ImageView skinImageView;
+    private int step = 1;
+
+
 
     public PlayerView() {
-        this.playerImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/main/resources/skin_images/" + Game.player.getSkinname() + ".png")));
-        this.playerView = new ImageView();
-        this.setPlayerView(0, 0);
-        this.playerView.setX((View.stageColumns / 2) - (View.tileColumns / 2));
-        this.playerView.setY((View.stageRows / 2) - (3 * View.tileRows / 2));
+        this.skinImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/main/resources/skin_images/" + GameCtrl.getPlayer().getSkinname() + ".png")));
+        this.skinWritableImage = new WritableImage(this.skinImage.getPixelReader(), 0 * View.tileColumns, 0 * View.tileRows * 2, View.tileColumns, View.tileRows * 2);
+        this.skinImageView = new ImageView(this.skinWritableImage);
+        this.skinImageView.setX((View.stageColumns / 2) - (View.tileColumns / 2));
+        this.skinImageView.setY((View.stageRows / 2) - (3 * View.tileRows / 2));
+    }
+
+    public ImageView getSkinImageView() {
+        return this.skinImageView;
     }
  
-    private int selectRowPlayerImage(KeyCode key) {
-        switch (key) {
+    public int getFace() {
+        switch (GameCtrl.getPlayer().getDirection()) {
             case KeyCode.W:
                 return 3;
             case KeyCode.A:
@@ -36,33 +45,31 @@ public class PlayerView {
         }
     }
 
-    private int selectColumnPlayerImage() {
-        if (this.columnPlayerImage == 1) {
-            this.columnPlayerImage = 3;
+    public int getStep() {
+        if (this.step == 1) {
+            this.step = 3;
             return 1;
         }
-        else if (this.columnPlayerImage == 3) {
-            this.columnPlayerImage = 1;
+        else if (this.step == 3) {
+            this.step = 1;
             return 3;
         }
         else {
-            throw new IllegalStateException("Invalid last frame for column player image selection");
+            throw new IllegalStateException("Invalid last step value");
         }
     }
 
-    private void initPlayerView() {
-        
+    public void move() {
+        int row = getFace();
+        int column = getStep();
+        this.skinWritableImage = new WritableImage(this.skinImage.getPixelReader(), column * View.tileColumns, row * View.tileRows * 2, View.tileColumns, View.tileRows * 2);
+        this.skinImageView.setImage(this.skinWritableImage);
     }
 
-    public void refreshPlayerView() {
-        this.group.getChildren().remove(this.playerView);
-        int row = this.selectRowPlayerImage(this.keyMoveScene);
-        this.setPlayerView(row, 0);
-        this.group.getChildren().add(this.playerView);
-    }
-
-    private void setPlayerView(int row, int column) {
-        WritableImage writableImage = new WritableImage(this.playerImage.getPixelReader(), column * View.tileColumns, row * View.tileRows * 2, View.tileColumns, View.tileRows * 2);
-        this.playerView.setImage(writableImage);
+    public void stop() {
+        int row = getFace();
+        int column = 0;
+        this.skinWritableImage = new WritableImage(this.skinImage.getPixelReader(), column * View.tileColumns, row * View.tileRows * 2, View.tileColumns, View.tileRows * 2);
+        this.skinImageView.setImage(this.skinWritableImage);
     }
 }

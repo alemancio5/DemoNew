@@ -1,19 +1,19 @@
 package main.java.app;
 
 import javafx.application.Application;
-import main.java.controller.Game;
+import main.java.ctrl.GameCtrl;
 import main.java.view.View;
 
 
 
 public class App {
-    public static Game game;
+    public static GameCtrl gameCtrl;
 
 
     
     public static void main(String[] args) {
         // initializing the game
-        App.game = new Game();
+        App.gameCtrl = new GameCtrl();
 
         // launching the view
         Application.launch(View.class);

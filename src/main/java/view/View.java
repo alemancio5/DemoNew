@@ -10,9 +10,9 @@ public class View extends Application {
     protected static final int stageColumns = 512;
     protected static final int tileRows = 32;
     protected static final int tileColumns = 32;
-
-    public static GameView gameView;
     
+    public static GameView gameView;
+
 
     
     @Override

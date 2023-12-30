@@ -19,8 +19,8 @@ public class Player {
         this.direction = KeyCode.S;
     }
 
-    public void move(KeyCode key) {
-        switch (key) {
+    public void move() {
+        switch (this.direction) {
             case KeyCode.W:
                 this.row--;
                 break;
