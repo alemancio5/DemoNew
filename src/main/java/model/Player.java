@@ -18,7 +18,7 @@ public class Player {
     }
 
     public void move(KeyCode key) {
-        switch(key) {
+        switch (key) {
             case KeyCode.W:
                 this.row--;
                 break;
@@ -31,6 +31,8 @@ public class Player {
             case KeyCode.D:
                 this.column++;
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid key");
         }
     }
     

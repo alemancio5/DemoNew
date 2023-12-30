@@ -42,6 +42,7 @@ public class PortalTile extends Tile {
         Game.player.setRow(row);
         Game.player.setColumn(column);
         Game.board = new Board(destination);
+        View.gameView.fadeGroup();
         View.gameView.refreshBoardView();
         View.gameView.refreshPlayerView();
         View.gameView.refreshOverView();

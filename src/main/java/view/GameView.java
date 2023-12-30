@@ -2,6 +2,7 @@ package main.java.view;
 
 import java.util.Objects;
 
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -11,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 import main.java.controller.Game;
@@ -42,7 +45,7 @@ public class GameView {
     public GameView() {
         // initializing the scene
         this.group = new Group();
-        group.setStyle("-fx-background-color: black;");
+        this.group.getChildren().add(new Rectangle(View.stageColumns, View.stageRows, Color.BLACK));
 
         // initializing the board view
         this.initBoardView();
@@ -59,6 +62,19 @@ public class GameView {
         // initializing the scene
         this.scene = new Scene(this.group);
         this.initScene();
+    }
+
+    public void fadeGroup() {
+        FadeTransition fadeInTransition = new FadeTransition(Duration.seconds(1), this.group);
+        fadeInTransition.setFromValue(1.0);
+        fadeInTransition.setToValue(0.0);
+        fadeInTransition.setCycleCount(1);
+        fadeInTransition.play();
+        FadeTransition fadeOutTransition = new FadeTransition(Duration.seconds(1), this.group);
+        fadeOutTransition.setFromValue(0.0);
+        fadeOutTransition.setToValue(1.0);
+        fadeOutTransition.setCycleCount(1);
+        fadeOutTransition.play();
     }
     
     private void initBoardView() {
