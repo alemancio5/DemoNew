@@ -84,11 +84,11 @@ public class GameView {
         this.boardView.setY((View.stageRows / 2) - (Game.player.getRow() * View.tileRows) - (View.tileRows / 2));
     }
     
-        public void refreshBoardView() {
-            this.group.getChildren().remove(this.boardView);
-            this.initBoardView();
-            this.group.getChildren().add(this.boardView);
-        } 
+    public void refreshBoardView() {
+        this.group.getChildren().remove(this.boardView);
+        this.initBoardView();
+        this.group.getChildren().add(this.boardView);
+    } 
 
     public void moveBoardView(int rows, int columns) {
         double currentX = this.boardView.getTranslateX();
@@ -139,7 +139,7 @@ public class GameView {
 
     public void refreshPlayerView() {
         this.group.getChildren().remove(this.playerView);
-        int row = this.selectRowPlayerImage(this.keyMoveScene);
+        int row = this.selectRowPlayerImage(Game.player.getDirection());
         this.setPlayerView(row, 0);
         this.group.getChildren().add(this.playerView);
     }
@@ -175,7 +175,7 @@ public class GameView {
     private void initScene() {
         // setting the timeline
         this.timelineMoveScene = new Timeline(new KeyFrame(Duration.millis(this.timeMoveScene), event1 -> {
-            Game.movePlayer(this.keyMoveScene);
+            Game.movePlayer(Game.player.getDirection());
         }));
         this.timelineMoveScene.setCycleCount(Timeline.INDEFINITE);
     
@@ -186,12 +186,12 @@ public class GameView {
             if (key == KeyCode.W || key == KeyCode.A || key == KeyCode.S || key == KeyCode.D) {
                 if (!this.isMovingScene) {
                     this.isMovingScene = true;
-                    this.keyMoveScene = key;
+                    Game.player.setDirection(key);
                     this.timelineMoveScene.play();
                 }
             }
             if (key == KeyCode.L) {
-                Game.actionBoard(this.keyMoveScene);
+                Game.actionBoard();
             }
         });
         
@@ -202,7 +202,7 @@ public class GameView {
             if (key == 'W' || key == 'A' || key == 'S' || key == 'D') {
                 this.isMovingScene = false;
                 this.timelineMoveScene.pause();
-                this.setPlayerView(this.selectRowPlayerImage(this.keyMoveScene), 0);
+                this.setPlayerView(this.selectRowPlayerImage(Game.player.getDirection()), 0);
             }
         });
     }

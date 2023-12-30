@@ -7,6 +7,7 @@ public class Player {
     private int row;
     private int column;
     private String skinname;
+    private KeyCode direction;
 
 
     
@@ -15,6 +16,7 @@ public class Player {
         this.row = row;
         this.column = column;
         this.skinname = skinname;
+        this.direction = KeyCode.S;
     }
 
     public void move(KeyCode key) {
@@ -44,19 +46,27 @@ public class Player {
         return this.row;
     }
     
-    public int getColumn() {
-        return this.column;
-    }
-    
-    public String getSkinname() {
-        return this.skinname;
-    }
-    
     public void setRow(int row) {
         this.row = row;
     }
-    
+
+    public int getColumn() {
+        return this.column;
+    }
+
     public void setColumn(int column) {
         this.column = column;
     }
+
+    public String getSkinname() {
+        return this.skinname;
+    }
+
+    public KeyCode getDirection() {
+        return direction;
+    }
+
+    public void setDirection(KeyCode direction) {
+        this.direction = direction;
+    }   
 }

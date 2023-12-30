@@ -52,8 +52,8 @@ public class Game {
         }
     }
 
-    public static void actionBoard(KeyCode key) {
-        switch (key) {
+    public static void actionBoard() {
+        switch (Game.player.getDirection()) {
             case KeyCode.W:
                 Game.board.getTiles()[Game.player.getRow() - 1][Game.player.getColumn()].action();
                 break;
