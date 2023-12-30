@@ -1,8 +1,6 @@
 package main.java.model.tile;
 
-import main.java.ctrl.GameCtrl;
-import main.java.model.Board;
-import main.java.view.View;
+import main.java.ctrl.GameCtrl;;
 
 public class PortalTile extends Tile {
     private String destination;
