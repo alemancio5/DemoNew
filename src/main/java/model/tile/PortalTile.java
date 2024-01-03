@@ -13,12 +13,12 @@ public class PortalTile extends Tile {
             case "Nowhere":
                 if (i == 17 && j == 26) {
                     this.destination = "WoodHouse1";
-                    this.row = 16;
-                    this.column = 11;
+                    this.row = 8;
+                    this.column = 3;
                 }
                 break;
             case "WoodHouse1":
-                if (i == 17 && j == 11) {
+                if (i == 9 && j == 3) {
                     this.destination = "Nowhere";
                     this.row = 18;
                     this.column = 26;

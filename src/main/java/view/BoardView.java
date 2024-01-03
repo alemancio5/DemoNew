@@ -23,7 +23,7 @@ public class BoardView {
 
     public BoardView() {
         // initializing the terrain image view
-        this.terrainImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/main/resources/board_images/" + GameCtrl.getBoard().getBoardname() + ".png")));
+        this.terrainImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/main/resources/terrain_images/" + GameCtrl.getBoard().getBoardname() + ".png")));
         this.terrainImageView = new ImageView(this.terrainImage);
         this.terrainImageView.setX((View.stageColumns / 2) - (GameCtrl.getPlayer().getColumn() * View.tileColumns) - (View.tileColumns / 2));
         this.terrainImageView.setY((View.stageRows / 2) - (GameCtrl.getPlayer().getRow() * View.tileRows) - (View.tileRows / 2));
