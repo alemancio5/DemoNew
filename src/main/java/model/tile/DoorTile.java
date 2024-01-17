@@ -2,26 +2,26 @@ package main.java.model.tile;
 
 import main.java.ctrl.GameCtrl;;
 
-public class PortalTile extends Tile {
+public class DoorTile extends Tile {
     private String destination;
     private int row;
     private int column;
 
     
-    public PortalTile(String boardname, int i, int j) {
+    public DoorTile(String boardname, int i, int j) {
         switch (boardname) {
             case "Nowhere":
-                if (i == 25 && j == 42) {
-                    this.destination = "GreenForest";
-                    this.row = 72;
-                    this.column = 21;
+                if (i == 17 && j == 26) {
+                    this.destination = "WoodHouse1";
+                    this.row = 8;
+                    this.column = 3;
                 }
                 break;
-            case "GreenForest":
-                if (i == 72 && j == 21) {
+            case "WoodHouse1":
+                if (i == 9 && j == 3) {
                     this.destination = "Nowhere";
-                    this.row = 25;
-                    this.column = 42;
+                    this.row = 18;
+                    this.column = 26;
                 }
                 break;
             default:
@@ -32,7 +32,7 @@ public class PortalTile extends Tile {
 
     @Override
     public boolean isWalkable() {
-        return true;
+        return false;
     }
 
     public boolean isActionable() {

@@ -14,6 +14,10 @@ public class WallTile extends Tile {
         return false;
     }
 
+    public boolean isActionable() {
+        return false;
+    }
+
     @Override
     public void action() {
     }

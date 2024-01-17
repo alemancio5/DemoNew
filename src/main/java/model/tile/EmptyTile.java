@@ -14,6 +14,10 @@ public class EmptyTile extends Tile {
         return true;
     }
 
+    public boolean isActionable() {
+        return false;
+    }
+
     @Override
     public void action() {
     }
