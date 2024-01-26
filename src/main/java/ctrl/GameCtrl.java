@@ -91,10 +91,14 @@ public class GameCtrl {
         }
     }
 
-    public static void teleport(String destination, int row, int column) {
+    public static void changeBoard(String destination, int row, int column) {
         GameCtrl.player.setRow(row);
         GameCtrl.player.setColumn(column);
         GameCtrl.board = new Board(destination);
         View.gameView.changeBoardView();
+    }
+
+    public static void showMessage(String message) {
+        View.gameView.showMessageView(message);
     }
 }

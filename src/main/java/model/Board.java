@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import main.java.model.tile.DoorTile;
 import main.java.model.tile.EmptyTile;
+import main.java.model.tile.MessageTile;
 import main.java.model.tile.PortalTile;
 import main.java.model.tile.Tile;
 import main.java.model.tile.WallTile;
@@ -53,6 +54,9 @@ public class Board {
                         break;
                     case "d":
                         this.tiles[i][j] = new DoorTile(this.boardname, i, j);
+                        break;
+                    case "m":
+                        this.tiles[i][j] = new MessageTile(this.boardname, i, j);
                         break;
                     default:
                         throw new IllegalArgumentException("Board file has illegal arguments");

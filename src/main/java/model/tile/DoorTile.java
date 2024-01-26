@@ -25,7 +25,7 @@ public class DoorTile extends Tile {
                 }
                 break;
             default:
-                throw new IllegalArgumentException("Illegal boardname passed to portal tile");
+                throw new IllegalArgumentException("Illegal boardname passed to door tile");
         }
 
     }
@@ -41,6 +41,6 @@ public class DoorTile extends Tile {
 
     @Override
     public void action() {
-        GameCtrl.teleport(this.destination, this.row, this.column);
+        GameCtrl.changeBoard(this.destination, this.row, this.column);
     }
 }

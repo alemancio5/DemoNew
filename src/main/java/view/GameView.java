@@ -5,6 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,6 +22,8 @@ import main.java.ctrl.GameCtrl;
 public class GameView {
     private PlayerView playerView;
     private BoardView boardView;
+
+    private DialogPane dialogPane;
     
     private Group backGroup;
     private Group gameGroup;
@@ -105,8 +113,25 @@ public class GameView {
         this.gameGroup.getChildren().add(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().add(this.boardView.getOverImageView());
        
-
         // unlock player view movement
         fadeoutGameGroup.setOnFinished(action -> {this.moving = false;});
+    }
+
+    public void showMessageView (String message) {
+        // lock player view movement
+        this.moveTimeline.pause();
+        this.playerView.stop();
+
+        // show the message
+        this.dialogPane = new DialogPane();
+        this.gameGroup.getChildren().add(this.dialogPane);
+
+        // Aggiunta di un messaggio al dialogo
+        Dialog<String> dialog = new Dialog();
+        dialog.setTitle("Dialogo Personalizzato");
+        dialog.setDialogPane(dialogPane);
+
+        // Attivazione del dialogo e attesa dell'input dell'utente
+        dialog.showAndWait();
     }
 }

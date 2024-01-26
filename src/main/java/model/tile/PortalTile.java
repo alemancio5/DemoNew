@@ -41,6 +41,6 @@ public class PortalTile extends Tile {
 
     @Override
     public void action() {
-        GameCtrl.teleport(this.destination, this.row, this.column);
+        GameCtrl.changeBoard(this.destination, this.row, this.column);
     }
 }
