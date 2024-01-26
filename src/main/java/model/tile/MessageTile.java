@@ -12,7 +12,7 @@ public class MessageTile extends Tile {
                 if (i == 23 && j == 42) {
                     this.message = "Welcome to Nowhere";
                 }
-                if (i == 19 && j == 25) {
+                if (i == 18 && j == 25) {
                     this.message = "Not your house!";
                 }
                 break;

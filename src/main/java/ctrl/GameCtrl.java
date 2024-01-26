@@ -99,6 +99,6 @@ public class GameCtrl {
     }
 
     public static void showMessage(String message) {
-        View.gameView.showMessageView(message);
+        View.gameView.showMessagePane(message);
     }
 }

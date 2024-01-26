@@ -17,7 +17,7 @@ public class BoardView {
     private Image overImage;
     private ImageView overImageView;
 
-    private int moveTime = 190;
+    private int moveTime = 130;
 
 
 

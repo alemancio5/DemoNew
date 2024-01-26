@@ -5,12 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,16 +17,17 @@ import main.java.ctrl.GameCtrl;
 public class GameView {
     private PlayerView playerView;
     private BoardView boardView;
+    private DialogPane messagePane;
 
-    private DialogPane dialogPane;
-    
     private Group backGroup;
     private Group gameGroup;
-
+    
     private Scene scene;
+    
+    private boolean messaging = false;
 
     private boolean moving = false;
-    private int moveTime = 200;
+    private int moveTime = 150;
     private Timeline moveTimeline;
 
 
@@ -41,20 +37,33 @@ public class GameView {
         this.playerView = new PlayerView();
         this.boardView = new BoardView();
 
+        // initializing the dialog pane
+        this.messagePane = new DialogPane();
+        this.messagePane.setVisible(this.messaging);
+        this.messagePane.setPrefSize(View.stageColumns, 2.5 * View.tileRows);
+        this.messagePane.setLayoutX(0);
+        this.messagePane.setLayoutY(View.stageRows - 2.5 * View.tileRows);
+
         // initializing the groups
         this.backGroup = new Group();
-        this.gameGroup = new Group();
         this.backGroup.getChildren().add(new Rectangle(View.stageColumns, View.stageRows, Color.BLACK));
+        this.gameGroup = new Group();
         this.backGroup.getChildren().add(this.gameGroup);
         this.gameGroup.getChildren().add(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().add(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().add(this.boardView.getOverImageView());
+        this.gameGroup.getChildren().add(this.messagePane);
 
         // initializing the scene
         this.scene = new Scene(this.backGroup);
 
         // setting the key pressed event
         this.scene.setOnKeyPressed(event -> {
+            if (this.messaging) {    // dialog
+                this.messaging = false;
+                this.messagePane.setVisible(this.messaging);
+                return;
+            }
             KeyCode key = event.getCode();
             if (key == KeyCode.W || key == KeyCode.A || key == KeyCode.S || key == KeyCode.D) {     // move
                 if (!this.moving) {
@@ -108,30 +117,25 @@ public class GameView {
         this.gameGroup.getChildren().remove(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().remove(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().remove(this.boardView.getOverImageView());
+        this.gameGroup.getChildren().remove(this.messagePane);
         this.boardView = new BoardView();
         this.gameGroup.getChildren().add(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().add(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().add(this.boardView.getOverImageView());
+        this.gameGroup.getChildren().add(this.messagePane);
        
         // unlock player view movement
         fadeoutGameGroup.setOnFinished(action -> {this.moving = false;});
     }
 
-    public void showMessageView (String message) {
+    public void showMessagePane(String message) {
         // lock player view movement
         this.moveTimeline.pause();
         this.playerView.stop();
 
-        // show the message
-        this.dialogPane = new DialogPane();
-        this.gameGroup.getChildren().add(this.dialogPane);
-
-        // Aggiunta di un messaggio al dialogo
-        Dialog<String> dialog = new Dialog();
-        dialog.setTitle("Dialogo Personalizzato");
-        dialog.setDialogPane(dialogPane);
-
-        // Attivazione del dialogo e attesa dell'input dell'utente
-        dialog.showAndWait();
+        // show the dialog pane
+        this.messagePane.setContentText(message);
+        this.messaging = true;
+        this.messagePane.setVisible(this.messaging);
     }
 }
