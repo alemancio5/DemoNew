@@ -1,24 +1,27 @@
 package main.java.model.tile;
 
+import java.util.ArrayList;
+
 import main.java.ctrl.GameCtrl;;
 
 public class MessageTile extends Tile {
-    private String message;
+    private ArrayList<String> messageList = new ArrayList<>();
 
     
     public MessageTile(String boardname, int i, int j) {
         switch (boardname) {
             case "Nowhere":
                 if (i == 23 && j == 42) {
-                    this.message = "Welcome to Nowhere";
+                    this.messageList.add(0, "Welcome to Nowhere");
                 }
                 if (i == 18 && j == 25) {
-                    this.message = "Not your house!";
+                    this.messageList.add(0, "Not your house!");
                 }
                 break;
             case "GreenForest":
                 if (i == 70 && j == 21) {
-                    this.message = "This is the Green Forest";
+                    this.messageList.add(0, "This is the Green Forest");
+                    this.messageList.add(1, "You can find a lot of trees here");
                 }
                 break;
             default:
@@ -32,12 +35,16 @@ public class MessageTile extends Tile {
         return false;
     }
 
-    public boolean isActionable() {
+    public boolean isOnActionable() {
+        return false;
+    }
+
+    public boolean isFrontActionable() {
         return true;
     }
 
     @Override
     public void action() {
-        GameCtrl.showMessage(this.message);
+        GameCtrl.showMessage(this.messageList);
     }
 }

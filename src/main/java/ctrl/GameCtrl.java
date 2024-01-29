@@ -1,5 +1,7 @@
 package main.java.ctrl;
 
+import java.util.ArrayList;
+
 import javafx.scene.input.KeyCode;
 import main.java.model.Board;
 import main.java.model.Player;
@@ -61,27 +63,27 @@ public class GameCtrl {
     }
 
     public static void action() {
-        if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn()].isActionable()) {
+        if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn()].isOnActionable()) {
             GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn()].action();
         } else {
             switch (GameCtrl.player.getDirection()) {
                 case KeyCode.W:
-                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow() - 1][GameCtrl.player.getColumn()].isActionable()) {
+                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow() - 1][GameCtrl.player.getColumn()].isFrontActionable()) {
                         GameCtrl.board.getTiles()[GameCtrl.player.getRow() - 1][GameCtrl.player.getColumn()].action();
                     }
                     break;
                 case KeyCode.A:
-                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() - 1].isActionable()) {
+                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() - 1].isFrontActionable()) {
                         GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() - 1].action();
                     }
                     break;
                 case KeyCode.S:
-                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow() + 1][GameCtrl.player.getColumn()].isActionable()) {
+                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow() + 1][GameCtrl.player.getColumn()].isFrontActionable()) {
                         GameCtrl.board.getTiles()[GameCtrl.player.getRow() + 1][GameCtrl.player.getColumn()].action();
                     }
                     break;
                 case KeyCode.D:
-                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() + 1].isActionable()) {
+                    if (GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() + 1].isFrontActionable()) {
                         GameCtrl.board.getTiles()[GameCtrl.player.getRow()][GameCtrl.player.getColumn() + 1].action();
                     }
                     break;
@@ -98,7 +100,7 @@ public class GameCtrl {
         View.gameView.changeBoardView();
     }
 
-    public static void showMessage(String message) {
-        View.gameView.showMessagePane(message);
+    public static void showMessage(ArrayList<String> messageList) {
+        View.gameView.showMessagePane(messageList);
     }
 }

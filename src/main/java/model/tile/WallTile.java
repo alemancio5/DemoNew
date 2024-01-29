@@ -14,7 +14,11 @@ public class WallTile extends Tile {
         return false;
     }
 
-    public boolean isActionable() {
+    public boolean isOnActionable() {
+        return false;
+    }
+
+    public boolean isFrontActionable() {
         return false;
     }
 

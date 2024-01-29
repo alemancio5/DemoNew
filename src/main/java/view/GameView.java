@@ -1,5 +1,7 @@
 package main.java.view;
 
+import java.util.ArrayList;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,6 +19,9 @@ import main.java.ctrl.GameCtrl;
 public class GameView {
     private PlayerView playerView;
     private BoardView boardView;
+
+    private int messageIndex;
+    private ArrayList<String> messageList;
     private DialogPane messagePane;
 
     private Group backGroup;
@@ -37,7 +42,9 @@ public class GameView {
         this.playerView = new PlayerView();
         this.boardView = new BoardView();
 
-        // initializing the dialog pane
+        // initializing the message pane
+        this.messageIndex = 0;
+        this.messageList = new ArrayList<>();
         this.messagePane = new DialogPane();
         this.messagePane.setVisible(this.messaging);
         this.messagePane.setPrefSize(View.stageColumns, 2.5 * View.tileRows);
@@ -59,12 +66,22 @@ public class GameView {
 
         // setting the key pressed event
         this.scene.setOnKeyPressed(event -> {
-            if (this.messaging) {    // dialog
-                this.messaging = false;
-                this.messagePane.setVisible(this.messaging);
-                return;
-            }
             KeyCode key = event.getCode();
+            if (this.messaging) {    // message
+                if (key == KeyCode.L) {
+                    if (this.messageIndex == this.messageList.size() - 1) {
+                        this.messaging = false;
+                        this.messagePane.setVisible(this.messaging);
+                    } else {
+                        this.messageIndex++;
+                        this.messagePane.setContentText(this.messageList.get(this.messageIndex));
+                    }
+                    return;
+                }
+                else {
+                    return;
+                }
+            }
             if (key == KeyCode.W || key == KeyCode.A || key == KeyCode.S || key == KeyCode.D) {     // move
                 if (!this.moving) {
                     this.moving = true;
@@ -102,7 +119,7 @@ public class GameView {
     }
     
     public void changeBoardView() {
-        // lock player view movement
+        // stop player view movement
         this.moveTimeline.pause();
         this.playerView.stop();
 
@@ -128,14 +145,17 @@ public class GameView {
         fadeoutGameGroup.setOnFinished(action -> {this.moving = false;});
     }
 
-    public void showMessagePane(String message) {
-        // lock player view movement
+    public void showMessagePane(ArrayList<String> messageList) {
+        // stop player view movement
         this.moveTimeline.pause();
         this.playerView.stop();
 
-        // show the dialog pane
-        this.messagePane.setContentText(message);
+        // show the message pane
         this.messaging = true;
+        this.messageIndex = 0;
+        this.messageList.clear();
+        this.messageList.addAll(messageList);
+        this.messagePane.setContentText(this.messageList.get(0));
         this.messagePane.setVisible(this.messaging);
     }
 }

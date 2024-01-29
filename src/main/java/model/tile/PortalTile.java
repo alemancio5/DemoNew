@@ -35,8 +35,12 @@ public class PortalTile extends Tile {
         return true;
     }
 
-    public boolean isActionable() {
+    public boolean isOnActionable() {
         return true;
+    }
+
+    public boolean isFrontActionable() {
+        return false;
     }
 
     @Override

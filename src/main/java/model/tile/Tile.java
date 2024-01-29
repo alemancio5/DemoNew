@@ -11,7 +11,9 @@ public abstract class Tile {
 
     public abstract boolean isWalkable();
 
-    public abstract boolean isActionable();
+    public abstract boolean isOnActionable();
+
+    public abstract boolean isFrontActionable();
     
     public abstract void action();
 }
