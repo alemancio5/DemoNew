@@ -20,16 +20,16 @@ public class GameView {
     private PlayerView playerView;
     private BoardView boardView;
 
-    private int messageIndex;
-    private ArrayList<String> messageList;
-    private DialogPane messagePane;
+    private int dialogIndex;
+    private ArrayList<String> dialogList;
+    private DialogPane dialogPane;
 
     private Group backGroup;
     private Group gameGroup;
     
     private Scene scene;
     
-    private boolean messaging = false;
+    private boolean dialoging = false;
 
     private boolean moving = false;
     private int moveTime = 150;
@@ -42,14 +42,14 @@ public class GameView {
         this.playerView = new PlayerView();
         this.boardView = new BoardView();
 
-        // initializing the message pane
-        this.messageIndex = 0;
-        this.messageList = new ArrayList<>();
-        this.messagePane = new DialogPane();
-        this.messagePane.setVisible(this.messaging);
-        this.messagePane.setPrefSize(View.stageColumns, 2.5 * View.tileRows);
-        this.messagePane.setLayoutX(0);
-        this.messagePane.setLayoutY(View.stageRows - 2.5 * View.tileRows);
+        // initializing the dialog pane
+        this.dialogIndex = 0;
+        this.dialogList = new ArrayList<>();
+        this.dialogPane = new DialogPane();
+        this.dialogPane.setVisible(this.dialoging);
+        this.dialogPane.setPrefSize(View.stageColumns, 2.5 * View.tileRows);
+        this.dialogPane.setLayoutX(0);
+        this.dialogPane.setLayoutY(View.stageRows - 2.5 * View.tileRows);
 
         // initializing the groups
         this.backGroup = new Group();
@@ -59,7 +59,7 @@ public class GameView {
         this.gameGroup.getChildren().add(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().add(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().add(this.boardView.getOverImageView());
-        this.gameGroup.getChildren().add(this.messagePane);
+        this.gameGroup.getChildren().add(this.dialogPane);
 
         // initializing the scene
         this.scene = new Scene(this.backGroup);
@@ -67,14 +67,14 @@ public class GameView {
         // setting the key pressed event
         this.scene.setOnKeyPressed(event -> {
             KeyCode key = event.getCode();
-            if (this.messaging) {    // message
+            if (this.dialoging) {    // dialog
                 if (key == KeyCode.L) {
-                    if (this.messageIndex == this.messageList.size() - 1) {
-                        this.messaging = false;
-                        this.messagePane.setVisible(this.messaging);
+                    if (this.dialogIndex == this.dialogList.size() - 1) {
+                        this.dialoging = false;
+                        this.dialogPane.setVisible(this.dialoging);
                     } else {
-                        this.messageIndex++;
-                        this.messagePane.setContentText(this.messageList.get(this.messageIndex));
+                        this.dialogIndex++;
+                        this.dialogPane.setContentText(this.dialogList.get(this.dialogIndex));
                     }
                     return;
                 }
@@ -134,28 +134,28 @@ public class GameView {
         this.gameGroup.getChildren().remove(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().remove(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().remove(this.boardView.getOverImageView());
-        this.gameGroup.getChildren().remove(this.messagePane);
+        this.gameGroup.getChildren().remove(this.dialogPane);
         this.boardView = new BoardView();
         this.gameGroup.getChildren().add(this.boardView.getTerrainImageView());
         this.gameGroup.getChildren().add(this.playerView.getSkinImageView());
         this.gameGroup.getChildren().add(this.boardView.getOverImageView());
-        this.gameGroup.getChildren().add(this.messagePane);
+        this.gameGroup.getChildren().add(this.dialogPane);
        
         // unlock player view movement
         fadeoutGameGroup.setOnFinished(action -> {this.moving = false;});
     }
 
-    public void showMessagePane(ArrayList<String> messageList) {
+    public void showDialogView(ArrayList<String> dialogList) {
         // stop player view movement
         this.moveTimeline.pause();
         this.playerView.stop();
 
-        // show the message pane
-        this.messaging = true;
-        this.messageIndex = 0;
-        this.messageList.clear();
-        this.messageList.addAll(messageList);
-        this.messagePane.setContentText(this.messageList.get(0));
-        this.messagePane.setVisible(this.messaging);
+        // show the dialog pane
+        this.dialoging = true;
+        this.dialogIndex = 0;
+        this.dialogList.clear();
+        this.dialogList.addAll(dialogList);
+        this.dialogPane.setContentText(this.dialogList.get(0));
+        this.dialogPane.setVisible(this.dialoging);
     }
 }

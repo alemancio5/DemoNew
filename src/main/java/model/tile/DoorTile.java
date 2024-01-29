@@ -1,6 +1,8 @@
 package main.java.model.tile;
 
-import main.java.ctrl.GameCtrl;;
+import main.java.ctrl.GameCtrl;
+
+
 
 public class DoorTile extends Tile {
     private String destination;
@@ -8,6 +10,7 @@ public class DoorTile extends Tile {
     private int column;
 
     
+
     public DoorTile(String boardname, int i, int j) {
         switch (boardname) {
             case "Nowhere":

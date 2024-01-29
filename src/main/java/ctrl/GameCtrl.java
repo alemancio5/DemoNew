@@ -100,7 +100,7 @@ public class GameCtrl {
         View.gameView.changeBoardView();
     }
 
-    public static void showMessage(ArrayList<String> messageList) {
-        View.gameView.showMessagePane(messageList);
+    public static void showDialog(ArrayList<String> dialogList) {
+        View.gameView.showDialogView(dialogList);
     }
 }

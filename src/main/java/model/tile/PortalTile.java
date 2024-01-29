@@ -8,6 +8,7 @@ public class PortalTile extends Tile {
     private int column;
 
     
+    
     public PortalTile(String boardname, int i, int j) {
         switch (boardname) {
             case "Nowhere":
