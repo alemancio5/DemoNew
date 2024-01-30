@@ -55,7 +55,7 @@ public class Board {
                     case "d":
                         this.tiles[i][j] = new DoorTile(this.boardname, i, j);
                         break;
-                    case "m":
+                    case "s":
                         this.tiles[i][j] = new SignTile(this.boardname, i, j);
                         break;
                     default:
