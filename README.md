@@ -1,6 +1,6 @@
 # DemoNew
 
-Welcome to the DemoNew project! This is a work-in-progress videogame project in 2D top-down view, made with javaFX. It was a test for my capabilities.
+Welcome to the DemoNew project! This is a videogame project in 2D top-down view, made with javaFX. It is a personal project to test my capabilities.
 
 ## Use
 
